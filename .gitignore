@@ -1,0 +1,5 @@
+.DS_Store
+*.plist
+*.txt
+wordlists/**
+dave
