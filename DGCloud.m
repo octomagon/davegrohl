@@ -75,7 +75,7 @@ int SocketConnectedToAddress(NSData *data){
     resolveLoop = [NSRunLoop currentRunLoop];
     
     for (int i = 0; i < [services count]; i++){
-        [[services objectAtIndex:i] setDelegate:self];
+        [[services objectAtIndex:i] setDelegate:[DGCloud self]];
         [[services objectAtIndex:i] resolveWithTimeout:5.0];
         [[services objectAtIndex:i] scheduleInRunLoop:resolveLoop forMode:NSDefaultRunLoopMode];
     }
