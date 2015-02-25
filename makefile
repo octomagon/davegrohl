@@ -1,14 +1,40 @@
-TARGET = dave
-CC = clang++
-LFLAGS =  -framework Foundation
-CFLAGS = -arch x86_64 -ObjC++ -std=c++0x -stdlib=libc++ -mmacosx-version-min=10.7 -fobjc-arc -fobjc-nonfragile-abi -O3
-SRCS = main.cpp DGTime.cpp DGTerminal.cpp IncString.cpp OCMD4.cpp OCHashing.cpp OCShadowHashData.m DGServer.cpp DGCloud.m DGCloudController.cpp DGAttack.m DGController.m
+# Thanks to Hilton Lipschitz for this makefile!
 
-all: $(SRCS)
-	$(CC) $(CFLAGS) $(LFLAGS) -o $(TARGET) $(SRCS)
+CC := clang++
+SRCDIR := src
+BUILDDIR := build
+TRGTDIR := bin
+LIBDIR := lib
+TARGET := $(TRGTDIR)/dave
+JOYMESG := "\nMake succeeded...\nCreated: $(TARGET)"
 
-debug: CFLAGS += -DDEBUG -g
-debug: all
+SRCEXT := cpp
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+CFLAGS := -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -fobjc-arc -fobjc-nonfragile-abi -arch x86_64 -ObjC++ -O3 
+LIB := -L $(LIBDIR) -framework Foundation
+INC := -I include
+
+$(TARGET): $(OBJECTS)
+	@echo " Linking..."
+	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB) && echo $(JOYMESG)
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(LIBDIR)
+	@mkdir -p $(TRGTDIR)
+	@mkdir -p $(BUILDDIR)
+	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	rm -f $(TARGET)
+	@echo " Cleaning..."; 
+	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
+
+# Tests
+#tester:
+#	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+
+## Spikes
+#ticket:
+#	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+
+.PHONY: clean

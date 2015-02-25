@@ -17,13 +17,8 @@
 #import "DGServer.h"
 #include "DGCracker.h"
 
-atomic<bool> done, reportPrinted;
-DGTimer theTimer;
-DGTerm theTerm;
-LocalStats iv, dv;
-static DGCloudController cloudController;
-int masterFD = -1, sigTermCount = 0, serverID = -1;
-bool distributed = false, killedThemAll = false, watchMasterFD;
+int sigTermCount = 0;
+bool distributed = false, killedThemAll = false, observeMasterFD;
 bool connectedToMaster = false;
 static bool serverMode = NO;
 
@@ -46,14 +41,14 @@ int crack(crack_t *theParams, hashData_t *theHashData){
         
         if (theParams->distributed == false) {
             if (theParams->totalThreads == 0) { theParams->totalThreads = theParams->slots; }
-            thread dict(dictionaryAttack, theParams, theHashData);
+            thread dict(theDictionaryAttack, theParams, theHashData);
             
             if (theParams->dictionary == -1 || theParams->incremental == 1) {
                 iv.threads = theParams->slots;
                 iv.firstThreadNum = theParams->position;
                  printf("iv.threads = %d\n", iv.threads);
                 for (int i = theParams->position; i < (theParams->position + theParams->slots); ++i) {
-                    threadVector.push_back(thread(incrementalAttack, theParams, theHashData, i));
+                    threadVector.push_back(thread(theIncrementalAttack, theParams, theHashData, i));
                 }
                 
                 printf("-- Started attack\n");
@@ -94,7 +89,7 @@ int crack(crack_t *theParams, hashData_t *theHashData){
     return 0;
 }
 
-int dictionaryAttack(crack_t *theParams, hashData_t *theHashData){
+int theDictionaryAttack(crack_t *theParams, hashData_t *theHashData){
     
     DIR *dp;
     struct dirent *entry;
@@ -157,7 +152,7 @@ int crackWordlist(crack_t *theParams, hashData_t *theHashData, const char * word
             } else { return 0; }
         }
         
-        if (tryPassword(theHashData, dv.word[threadNum]) == 0) {
+        if (attemptPassword(theHashData, dv.word[threadNum]) == 0) {
             done = true;
             printReport(true, dv.word[threadNum], "dictionary");
             return 0;
@@ -176,7 +171,7 @@ int crackWordlist(crack_t *theParams, hashData_t *theHashData, const char * word
 }
 
 
-int incrementalAttack(crack_t *theParams, hashData_t *theHashData, int threadNum){
+int theIncrementalAttack(crack_t *theParams, hashData_t *theHashData, int threadNum){
     iv.str[threadNum].setChars(theParams->charset);
     iv.str[threadNum].zero(theParams->min);
     
@@ -207,7 +202,7 @@ int incrementalAttack(crack_t *theParams, hashData_t *theHashData, int threadNum
                 } else { return 0; }
             }
             
-            if (tryPassword(theHashData, iv.str[threadNum].value) == 0) {
+            if (attemptPassword(theHashData, iv.str[threadNum].value) == 0) {
                 done = true;
                 printReport(true, iv.str[threadNum].value, "incremental");
                 return 0;
@@ -229,7 +224,7 @@ int incrementalAttack(crack_t *theParams, hashData_t *theHashData, int threadNum
 }
 
 
-int tryPassword(hashData_t *userHashData, const char *passwd){
+int attemptPassword(hashData_t *userHashData, const char *passwd){
     static __thread hashData_t guessHashData;
     
     if (userHashData->hashType == PBKDF2HashType) {
@@ -256,7 +251,7 @@ int tryPassword(hashData_t *userHashData, const char *passwd){
 }
 
 
-int setPredefined(char *charset, const char *pd){
+int makePredefined(char *charset, const char *pd){
     
     if (strcmp(pd, "09") == 0) {
         strcpy(charset, "0123456789");
@@ -277,7 +272,7 @@ int setPredefined(char *charset, const char *pd){
 }
 
 
-int loadHashForCracking(hashData_t *theHashData, OCShadowHashData *theSHD){
+int getHashForCracking(hashData_t *theHashData, OCShadowHashData *theSHD){
     DGHashType theType;
     
     if (theHashData->hashType == UnknownHashType) {
@@ -330,7 +325,7 @@ void updateStatus(crack_t *theParams){
         if (0 < ch && ch <= iv.threads) {
             printf("Thread %d of %d (%s)\n", ch, iv.threads, iv.str[ch-1].value);
         } else if (ch == 68){ // t
-            printf("%s\n", timeLeft(theParams));
+            printf("%s\n", timeRemaining(theParams));
         } else {
             for (int i = 0; i < dv.threads; i++) {
                 // printf("%d ", dv.threads);
@@ -353,7 +348,7 @@ void updateStatus(crack_t *theParams){
 void catchTerm(){
     while (!done) {
         sigTermCount++;
-        signal(SIGINT, bailout);
+        signal(SIGINT, bail);
         // pause();
     }
     #ifdef DEBUG
@@ -366,12 +361,12 @@ void catchException(){
     #ifdef DEBUG
     printf("catchException() called\n");
     #endif
-    bailout(0);
+    bail(0);
 }
 
-void bailout(int tid){
+void bail(int tid){
     #ifdef DEBUG
-    printf("bailout(%d) called\n", tid);
+    printf("bail(%d) called\n", tid);
     #endif
     theTerm.reset();
         
@@ -399,7 +394,7 @@ void calibrateBatchSize(crack_t *theParams){
     }
 }
 
-char * timeLeft(crack_t *theParams){
+char * timeRemaining(crack_t *theParams){
     IncString str;
     str.setChars(theParams->charset);
     static char fTime[2048];
@@ -474,7 +469,7 @@ void printReport(bool found, const char *pw, const char *at){
     
 }
 
-int watchMaster(int fd){
+int observeMaster(int fd){
     connectedToMaster = YES;
     serverMode = YES;
     masterFD = fd;

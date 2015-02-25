@@ -9,9 +9,8 @@ bool shouldPrintReport = false;
 std::atomic<bool> reportPrinted;
 int masterFD = -1, serverID = -1, sigTerms = 0;
 DGTerm theTerm;
-DGCloudController cloudController;
 DGAttack *theAttack;
-
+DGCloudController cloudController;
 
 @implementation DGController 
 
