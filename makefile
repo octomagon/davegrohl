@@ -3,9 +3,9 @@
 CC := clang++
 SRCDIR := src
 BUILDDIR := build
-TRGTDIR := bin
+#TRGTDIR := bin
 LIBDIR := lib
-TARGET := $(TRGTDIR)/dave
+TARGET := dave
 JOYMESG := "\nMake succeeded...\nCreated: $(TARGET)"
 
 SRCEXT := cpp
@@ -22,7 +22,7 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(LIBDIR)
-	@mkdir -p $(TRGTDIR)
+	#@mkdir -p $(TRGTDIR)
 	@mkdir -p $(BUILDDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
