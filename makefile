@@ -3,7 +3,6 @@
 CC := clang++
 SRCDIR := src
 BUILDDIR := build
-#TRGTDIR := bin
 LIBDIR := lib
 TARGET := dave
 JOYMESG := "\nMake succeeded...\nCreated: $(TARGET)"
@@ -22,20 +21,14 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(LIBDIR)
-	#@mkdir -p $(TRGTDIR)
 	@mkdir -p $(BUILDDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+debug: CFLAGS += -DDEBUG -g
+debug: $(TARGET)
 
 clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
-
-# Tests
-#tester:
-#	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
-
-## Spikes
-#ticket:
-#	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
 
 .PHONY: clean
