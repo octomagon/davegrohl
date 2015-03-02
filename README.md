@@ -48,7 +48,7 @@ Out of the box, Dave will not check every possible password because it is insane
 
 You can greatly improve your time-to-crack if you have an idea of how long the password is and what characters may be in it.  The following example tells Dave the password is between 5 & 7 digits long and may contain the characters 'sbeio'.
 ```bash
-MacBook-Pro:~/davegrohl$ sudo ./dave -c sbeio -m 5 -M 7 -u octomagon
+MacBook-Pro:~/davegrohl$ sudo ./dave -c sbeio -m 5 -M 7 -u someuser
 Password:
 -- Loaded PBKDF2 (Salted SHA512) hash...
 -- Starting attack
