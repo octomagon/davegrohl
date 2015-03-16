@@ -1,3 +1,7 @@
+#ifndef OCTOMAGON_INCSTRING_H_
+#define OCTOMAGON_INCSTRING_H_
+
+
 #include <iostream>
 #include <math.h>
 
@@ -22,3 +26,6 @@ public:
     void setValue4num(long double num);
     long double rangeForMinAndMaxDigits(int min, int max);
 };
+
+
+#endif // OCTOMAGON_INCSTRING_H_

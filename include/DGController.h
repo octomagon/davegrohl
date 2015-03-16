@@ -1,3 +1,6 @@
+#ifndef DAVEGROHL_INCLUDE_DGCONTROLLER_H_
+#define DAVEGROHL_INCLUDE_DGCONTROLLER_H_
+
 
 #import <Foundation/Foundation.h>
 #import "DGAttack.h"
@@ -19,3 +22,6 @@ void printFinalReport();
 int sendStatusUpdateToMaster();
 
 @end
+
+
+#endif // DAVEGROHL_INCLUDE_DGCONTROLLER_H_

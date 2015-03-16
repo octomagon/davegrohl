@@ -1,3 +1,7 @@
+#ifndef DAVEGROHL_INCLUDE_DGTIME_H_
+#define DAVEGROHL_INCLUDE_DGTIME_H_
+
+
 #include <iostream>
 #include <sys/time.h>
 #include <math.h>
@@ -25,3 +29,6 @@ struct DGTimeUnits {
 
 void secsToTimeUnits(DGTimeUnits *tu, long double total);
 int intwithcommas(char theString[STR_BUFF_LEN], uint64_t theInt);
+
+
+#endif // DAVEGROHL_INCLUDE_DGTIME_H_

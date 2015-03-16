@@ -1,3 +1,6 @@
+#ifndef DAVEGROHL_INCLUDE_OCSHADOWHASHDATA_H_
+#define DAVEGROHL_INCLUDE_OCSHADOWHASHDATA_H_
+
 
 #import <Foundation/Foundation.h>
 #import "DGTypes.h"
@@ -31,3 +34,6 @@
 @end
 
 int loadHashForCracking(hashData_t *theHashData, OCShadowHashData *theSHD);
+
+
+#endif // DAVEGROHL_INCLUDE_OCSHADOWHASHDATA_H_

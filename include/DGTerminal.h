@@ -1,3 +1,7 @@
+#ifndef DAVEGROHL_INCLUDE_DGTERMINAL_H_
+#define DAVEGROHL_INCLUDE_DGTERMINAL_H_
+
+
 #import <termios.h>
 #import <fcntl.h>
 
@@ -11,3 +15,5 @@ struct DGTerm{
     
 };
 
+
+#endif // DAVEGROHL_INCLUDE_DGTERMINAL_H_

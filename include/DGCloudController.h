@@ -1,3 +1,6 @@
+#ifndef DAVEGROHL_INCLUDE_DGCLOUDCONTROLLER_H_
+#define DAVEGROHL_INCLUDE_DGCLOUDCONTROLLER_H_
+
 
 // #import "DGCracker.h"
 #import "DGTypes.h"
@@ -34,3 +37,6 @@ public:
 int watchServer(int fd, DGCloudController *cloudController);
 int readPacketFromServer(DGPacket packet, DGCloudController *cloudController);
 void printCloudReport(DGCloudController *cloudController);
+
+
+#endif // DAVEGROHL_INCLUDE_DGCLOUDCONTROLLER_H_

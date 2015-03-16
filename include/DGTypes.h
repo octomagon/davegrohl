@@ -1,3 +1,7 @@
+#ifndef DAVEGROHL_INCLUDE_DGTYPES_H_
+#define DAVEGROHL_INCLUDE_DGTYPES_H_
+
+
 #import <atomic>
 #import "IncString.h"
 
@@ -86,4 +90,7 @@ struct LocalStats {
         return totalCount;
     }
 };
+
+
+#endif // DAVEGROHL_INCLUDE_DGTYPES_H_
 

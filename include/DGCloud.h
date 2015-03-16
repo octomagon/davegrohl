@@ -1,3 +1,7 @@
+#ifndef DAVEGROHL_INCLUDE_DGCLOUD_H_
+#define DAVEGROHL_INCLUDE_DGCLOUD_H_
+
+
 #import <iostream>
 #import <sys/socket.h>
 #import <thread>
@@ -48,3 +52,6 @@ int SocketConnectedToAddress(NSData *data);
 @property (readwrite, strong) NSNetServiceBrowser *serviceBrowser;
 
 @end
+
+
+#endif // DAVEGROHL_INCLUDE_DGCLOUD_H_

@@ -1,9 +1,11 @@
-#import <Foundation/Foundation.h>
+#ifndef DAVEGROHL_INCLUDE_DGATTACK_H_
+#define DAVEGROHL_INCLUDE_DGATTACK_H_
 
+
+#import <Foundation/Foundation.h>
 
 #import "OCShadowHashData.h"
 #import "DGCloudController.h"
-
 #import "DGTypes.h"
 
 @class DGAttack;
@@ -41,3 +43,4 @@ void getFinalCount();
 @end
 
 
+#endif // DAVEGROHL_INCLUDE_DGATTACK_H_

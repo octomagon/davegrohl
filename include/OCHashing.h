@@ -1,3 +1,6 @@
+#ifndef DAVEGROHL_INCLUDE_OCHASHING_H_
+#define DAVEGROHL_INCLUDE_OCHASHING_H_
+
 
 #include <iostream>
 #include <sstream>
@@ -15,3 +18,6 @@ int getPBKDF2Data(NSString *plistPath, uint8_t theKey[], uint8_t theSalt[], int 
 int SHA1Hash(unsigned char *fullHash, const char *inPassword, unsigned char *inSalt);
 int SHA512Hash(unsigned char *fullHash, const char *inPassword, unsigned char *salt);
 char * dumpHex(const void *hashData, int size);
+
+
+#endif // DAVEGROHL_INCLUDE_OCHASHING_H_

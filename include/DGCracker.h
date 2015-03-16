@@ -1,3 +1,7 @@
+#ifndef DAVEGROHL_INCLUDE_DGCRACKER_H_
+#define DAVEGROHL_INCLUDE_DGCRACKER_H_
+
+
 // clang++ -E -dM - < /dev/null | grep MAX
 
 #include <iostream>
@@ -34,3 +38,5 @@ char * timeRemaining(crack_t *theParams);
 void printReport(bool found, const char *pw, const char *at);
 int observeMaster(int fd);
 
+
+#endif // DAVEGROHL_INCLUDE_DGCRACKER_H_
