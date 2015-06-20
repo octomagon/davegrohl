@@ -7,7 +7,15 @@
 #include <string.h>
 #include <sys/types.h>
 #include <stdio.h>
-#include <openssl/md4.h>
+
+// El Capitan drops support for openssl
+#include <Availability.h>
+#ifdef MAC_OS_X_VERSION_10_11
+        #include <apr-1/apr_md4.h>
+#else
+        #include <openssl/md4.h>
+#endif
+
 #include <CommonCrypto/CommonDigest.h>
 #import <Foundation/Foundation.h>
 
