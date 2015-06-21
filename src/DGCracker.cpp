@@ -225,8 +225,7 @@ int theIncrementalAttack(crack_t *theParams, hashData_t *theHashData, int thread
 
 
 int attemptPassword(hashData_t *userHashData, const char *passwd){
-    // static __thread hashData_t guessHashData;
-    static __thread unsigned char hash[512];
+    static __thread unsigned char hash[HASH_LEN];
 
     if (userHashData->hashType == PBKDF2HashType) {
         CCKeyDerivationPBKDF(kCCPBKDF2, passwd, strlen(passwd), userHashData->salt, 32, kCCPRFHmacAlgSHA512, userHashData->rounds, hash, 128);
