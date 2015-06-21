@@ -23,7 +23,7 @@ int getPBKDF2Data(NSString *plistPath, uint8_t theKey[], uint8_t theSalt[], int 
     
     NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
     NSData *hashData = [[NSData alloc] initWithData:[[plist objectForKey:@"ShadowHashData"] objectAtIndex:0]];
-    NSDictionary *shadowHashData = [NSPropertyListSerialization propertyListFromData:hashData mutabilityOption:NSPropertyListMutableContainersAndLeaves format:NULL errorDescription:NULL];
+    NSDictionary *shadowHashData = [NSPropertyListSerialization propertyListWithData:hashData options:NSPropertyListMutableContainersAndLeaves format:NULL error:NULL];
     NSDictionary *pbkdf2 = [[NSDictionary alloc] initWithDictionary:[shadowHashData objectForKey:@"SALTED-SHA512-PBKDF2"]];
     
     memcpy(theKey, [[pbkdf2 objectForKey:@"entropy"] bytes], [[pbkdf2 objectForKey:@"entropy"] length]);

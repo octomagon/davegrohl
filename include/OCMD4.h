@@ -7,7 +7,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <stdio.h>
-#include <openssl/md4.h>
+
 #include <CommonCrypto/CommonDigest.h>
 #import <Foundation/Foundation.h>
 

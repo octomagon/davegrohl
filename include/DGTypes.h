@@ -16,8 +16,10 @@
 #define msgUPDATEREQUEST "Request Update"
 #define msgSTATUS "Status"
 
+#define HASH_LEN 512
 #define MAX_PASSWD_LEN 128
 #define MAX_THREADS 2048
+
 
 typedef enum {
     MD4HashType,
@@ -36,7 +38,7 @@ typedef enum {
 } DGStatus;
 
 struct hashData_t {
-    unsigned char hash[512], salt[64];
+    unsigned char hash[HASH_LEN], salt[64];
     char passwd[MAX_PASSWD_LEN], saltString[64];
     int rounds;
     DGHashType hashType = UnknownHashType;

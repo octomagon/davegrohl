@@ -27,7 +27,9 @@
     
     NSDictionary *thePlistDictionary = [[NSDictionary alloc] initWithContentsOfFile:thePlist];
     NSData *hashData = [[NSData alloc] initWithData:[[thePlistDictionary objectForKey:@"ShadowHashData"] objectAtIndex:0]];
-    shadowHashData = [NSPropertyListSerialization propertyListFromData:hashData mutabilityOption:NSPropertyListMutableContainersAndLeaves format:NULL errorDescription:NULL];
+    // shadowHashData = [NSPropertyListSerialization propertyListFromData:hashData mutabilityOption:NSPropertyListMutableContainersAndLeaves format:NULL errorDescription:NULL];
+    
+    shadowHashData = [NSPropertyListSerialization propertyListWithData:hashData options:NSPropertyListMutableContainersAndLeaves format:NULL error:NULL];
     
 }
 

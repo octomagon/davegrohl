@@ -225,24 +225,24 @@ int theIncrementalAttack(crack_t *theParams, hashData_t *theHashData, int thread
 
 
 int attemptPassword(hashData_t *userHashData, const char *passwd){
-    static __thread hashData_t guessHashData;
-    
+    static __thread unsigned char hash[HASH_LEN];
+
     if (userHashData->hashType == PBKDF2HashType) {
-        CCKeyDerivationPBKDF(kCCPBKDF2, passwd, strlen(passwd), userHashData->salt, 32, kCCPRFHmacAlgSHA512, userHashData->rounds, guessHashData.hash, 128);
+        CCKeyDerivationPBKDF(kCCPBKDF2, passwd, strlen(passwd), userHashData->salt, 32, kCCPRFHmacAlgSHA512, userHashData->rounds, hash, 128);
         
-        if (memcmp(userHashData->hash, guessHashData.hash, 128) == 0){
+        if (memcmp(userHashData->hash, hash, 128) == 0){
             return 0;
         }
     } else if (userHashData->hashType == SHA512HashType) {
-        SHA512Hash(guessHashData.hash, passwd, userHashData->salt);
+        SHA512Hash(hash, passwd, userHashData->salt);
         
-        if (memcmp(&userHashData->hash[4] ,guessHashData.hash ,64) == 0) {
+        if (memcmp(&userHashData->hash[4] ,hash ,64) == 0) {
             return 0;
         }
     } else if (userHashData->hashType == MD4HashType){
-        CalculateSMBNTHash(passwd, guessHashData.hash);
+        CalculateSMBNTHash(passwd, hash);
         
-        if (memcmp(userHashData->hash ,guessHashData.hash ,16) == 0) {
+        if (memcmp(userHashData->hash ,hash ,16) == 0) {
             return 0;
         }
     }

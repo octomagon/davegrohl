@@ -10,7 +10,7 @@ JOYMESG := "\nMake succeeded...\nCreated: $(TARGET)"
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -fobjc-arc -fobjc-nonfragile-abi -arch x86_64 -ObjC++ -O3 
+CFLAGS := -std=c++11 -stdlib=libc++ -fobjc-arc -fobjc-nonfragile-abi -arch x86_64 -ObjC++ -O3 
 LIB := -L $(LIBDIR) -framework Foundation
 INC := -I include
 
