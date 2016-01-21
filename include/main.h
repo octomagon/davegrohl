@@ -1,48 +1,43 @@
 #include <iostream>
-#include <fstream>
-#include <getopt.h>
-#import <limits.h>
-#import <Foundation/Foundation.h>
+#include <thread>
 
-#import "DGController.h"
-#import "DGAttack.h"
-#import "OCHashing.h"
-#import "DGServer.h"
-#import "DGTime.h"
-#import "DGTerminal.h"
-#import "OCShadowHashData.h"
-#import "OCMD4.h"
-#import "IncString.h"
+extern "C" {
+    #include <getopt.h>
+}
+
+#include "app_controller.h"
+
+
+static volatile sig_atomic_t sig_caught = 0;
 
 static struct option longopts[] = {
-    { "about",          optional_argument,  NULL,   'a' },
-    { "batch-size",     required_argument,  NULL,   'b' },
     { "characters",     required_argument,  NULL,   'c' },
     { "char-set",       required_argument,  NULL,   'C' },
+    { "daemon",         no_argument,        NULL,   'D' },
     { "dictionary",     no_argument,        NULL,   'd' },
-    { "distributed",    no_argument,        NULL,   'D' },
     { "help",           no_argument,        NULL,   'h' },
-    { "file",           required_argument,  NULL,   'f' },
-    { "generate",       required_argument,  NULL,   'g' },
+    { "hash",           required_argument,  NULL,   'H' },
+    { "info",           no_argument,        NULL,   'I' },
     { "incremental",    no_argument,        NULL,   'i' },
-    { "iterations",     required_argument,  NULL,   'I' },
-    { "john",           required_argument,  NULL,   'j' },
-    { "list",           required_argument,  NULL,   'l' },
     { "min",            required_argument,  NULL,   'm' },
     { "max",            required_argument,  NULL,   'M' },
-    { "plist",          required_argument,  NULL,   'p' },
-    { "port",           required_argument,  NULL,   'P' },
-    { "server",         no_argument,        NULL,   'S' },
+    { "password",       required_argument,  NULL,   'p' },
+    { "rounds",         required_argument,  NULL,   'R' },
     { "shadow",         required_argument,  NULL,   's' },
-    { "threads",        required_argument,  NULL,   't' },
+    { "salt",           required_argument,  NULL,   'S' },
+    { "timeout",        required_argument,  NULL,   't' },
+    { "threads",        required_argument,  NULL,   'T' },
     { "user",           required_argument,  NULL,   'u' },
     { "verbose",        no_argument,        NULL,   'v' },
+    { "version",        no_argument,        NULL,   'V' },
     {  NULL,            0,                  NULL,    0  }
 };
 
-using namespace std;
+// This is the signal handler. It's registered with signal()
+void handleSigint(int signum);
 
-int help(void);
-int setPredefined(char *charset, const char *pd);
-int about(void);
+// This runs on a seperate thread wathing the signal count and informing
+// the AppController class.
+void signalWatcher(AppController *anApp);
+
 int main(int argc, char * argv[]);
