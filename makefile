@@ -50,8 +50,7 @@ debug: CFLAGS += -g -Wall
 debug: $(TARGET)
 
 test:
-	@echo "\nTesting $(TARGET)..."
-	@./test/testDave.sh
+	@make -C tests
 
 clean:
 	@echo " Cleaning..."; 
