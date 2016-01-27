@@ -1,5 +1,6 @@
 CC := clang++
 TARGET := dave
+MAKE := make --no-print-directory
 UNAME_S := $(shell uname -s)
 
 # Dave
@@ -8,18 +9,13 @@ SRCDIR := src
 BUILDDIR := build
 SOURCES := $(wildcard $(SRCDIR)/*.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-
-# mbedTLS
-SRCEXT2 := c
-SRCDIR2 := src/mbedtls
-BUILDDIR2 := build/mbedtls
-SOURCES2 := $(wildcard $(SRCDIR2)/*.$(SRCEXT2))
-OBJECTS2 := $(patsubst $(SRCDIR2)/%,$(BUILDDIR2)/%,$(SOURCES2:.$(SRCEXT2)=.o))
+MBEDDIR := mbedtls
+MBEDTLS := $(MBEDDIR)/library/libmbedcrypto.a
 
 CFLAGS :=
 CPPFLAGS := -std=c++14 -stdlib=libc++
-LIB := -lc++ -lpthread
-INC := -I include
+LIB := -lc++ -lpthread -L$(MBEDDIR)/library -lmbedcrypto
+INC := -I include -I $(MBEDDIR)/include
 
 # Set OS Specific flags
 ifeq ($(UNAME_S),Darwin) # OS X
@@ -30,8 +26,8 @@ else # Linux
 endif
 
 # Linking
-$(TARGET): $(OBJECTS) $(OBJECTS2)
-	@echo " Linking..."
+$(TARGET): $(OBJECTS) $(MBEDTLS)
+	@echo "  Linking..."
 	$(CC) $^ -o $(TARGET) $(LIB)
 	@printf "\nMake succeeded... Created: '$(TARGET)'\n"
 
@@ -40,20 +36,21 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
 	$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
-# Compiles mbedTLS which is in C
-$(BUILDDIR2)/%.o: $(SRCDIR2)/%.$(SRCEXT2)
-	@mkdir -p $(BUILDDIR2)
-	$(CC) -x c $(CFLAGS) $(INC) -c -o $@ $<
+$(MBEDTLS):
+	@$(MAKE) -C $(MBEDDIR)
 
 debug: CPPFLAGS += -g -Wall
 debug: CFLAGS += -g -Wall
 debug: $(TARGET)
 
 test:
-	@make -C tests
+	@echo "  Testing mbedTLS..."
+	@$(MAKE) -C $(MBEDDIR) test && printf "\nmbedTLS testing passed!\n"
+	@$(MAKE) -C tests
 
 clean:
-	@echo " Cleaning..."; 
+	@echo "  Cleaning..."; 
+	@$(MAKE) -C $(MBEDDIR) clean
 	$(RM) -r $(BUILDDIR) $(TARGET)
 
 dev: clean debug test
@@ -61,7 +58,5 @@ dev: clean debug test
 print:
 	@echo "SOURCES: $(SOURCES)"
 	@echo "OBJECTS: $(OBJECTS)"
-	@echo "SOURCES2: $(SOURCES2)"
-	@echo "OBJECTS2: $(OBJECTS2)"
 
-.PHONY: clean test
+.PHONY: clean test $(MBEDTLS)

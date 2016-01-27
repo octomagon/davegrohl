@@ -1,5 +1,5 @@
 all:
-	@echo "\nTesting dave..."
+	@echo "\n  Testing dave..."
 	@./testDave.sh
 
 .PHONY: all

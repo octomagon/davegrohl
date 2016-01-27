@@ -34,6 +34,7 @@
 // Fallback to MbedTLS
 extern "C" {
     #define USE_MBEDTLS
+    #include "mbedtls/version.h"
     #include "mbedtls/md4.h"
     #include "mbedtls/sha512.h"
     #include "mbedtls/pkcs5.h"

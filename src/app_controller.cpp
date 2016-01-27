@@ -174,7 +174,7 @@ int AppController::version(void){
     std::cout << "OpenSSL ";
 #endif
 #ifdef USE_MBEDTLS
-    std::cout << "mbedTLS ";
+    std::cout << "mbedTLS " << MBEDTLS_VERSION_STRING;
 #endif
     std::cout << "\n" << std::endl;
     
