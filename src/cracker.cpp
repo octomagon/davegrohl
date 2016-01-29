@@ -108,6 +108,9 @@ int Cracker::start(){
         options.dictionary = true;
     }
     
+    std::thread timeoutThread(&Cracker::stopAfterTimeout, this);
+    timeoutThread.detach();
+    
     startTimer();
     
     // Start incremental threads
@@ -145,6 +148,14 @@ int Cracker::joinThreads(){
 
 void Cracker::stopTimer(){
     gettimeofday(&tdone, NULL);
+}
+
+void Cracker::stopAfterTimeout(){
+    if (options.timeout != 0) {
+        std::this_thread::sleep_for (std::chrono::seconds(options.timeout));
+        done = true;
+    }
+    return;
 }
 
 

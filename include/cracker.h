@@ -94,6 +94,7 @@ public:
     void stop();
     int joinThreads();
     void stopTimer();
+    void stopAfterTimeout();
     void elapsedTime(char *prettyTime);
     bool tryOnePassword();
     
