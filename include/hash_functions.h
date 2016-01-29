@@ -24,6 +24,7 @@
 #elif __has_include(<openssl/evp.h>)
     extern "C" {
         #define USE_OPENSSL
+        #include <openssl/opensslv.h>
         #include <openssl/md4.h>
         #include <openssl/sha.h>
         #include <openssl/evp.h>

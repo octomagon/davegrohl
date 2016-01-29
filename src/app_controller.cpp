@@ -166,17 +166,16 @@ int AppController::version(void){
     std::cout << "http://www.davegrohl.org\n\n";
     
     // This may be a bit sloppy
-    std::cout << "Compiled with: ";
+    std::cout << "    Built with:" << std::endl;
 #ifdef USE_COMMON_CRYPTO
-    std::cout << "CommonCrypto ";
+    std::cout << "CommonCrypto" << std::endl;
 #endif
 #ifdef USE_OPENSSL
-    std::cout << "OpenSSL ";
+    std::cout << OPENSSL_VERSION_TEXT << std::endl;
 #endif
 #ifdef USE_MBEDTLS
-    std::cout << "mbedTLS " << MBEDTLS_VERSION_STRING;
+    std::cout << MBEDTLS_VERSION_STRING_FULL << std::endl;
 #endif
-    std::cout << "\n" << std::endl;
     
     return 0;
 }
