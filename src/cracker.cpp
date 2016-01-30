@@ -88,6 +88,13 @@ int Cracker::loadOptions(CrackerOptions someOptions){
 }
 
 
+// ----------------------------------------------------------------------------
+//     ___ _            _
+//    / __| |_ __ _ _ _| |_
+//    \__ \  _/ _` | '_|  _|
+//    |___/\__\__,_|_|  \__|
+//
+// ----------------------------------------------------------------------------
 
 
 int Cracker::start(){
@@ -108,9 +115,11 @@ int Cracker::start(){
         options.dictionary = true;
     }
     
+    // Seperate thread that stops the attack after the specified timeout.
     std::thread timeoutThread(&Cracker::stopAfterTimeout, this);
     timeoutThread.detach();
     
+    // Times the attack.  Unrelated to timeout.
     startTimer();
     
     // Start incremental threads
@@ -170,12 +179,13 @@ bool Cracker::tryOnePassword(){
 
 
 // ----------------------------------------------------------------------------
-//
-//
-//     Attack Functions
-//
+//       _  _   _           _     ___             _   _
+//      /_\| |_| |_ __ _ __| |__ | __|  _ _ _  __| |_(_)___ _ _  ___
+//     / _ \  _|  _/ _` / _| / / | _| || | ' \/ _|  _| / _ \ ' \(_-<
+//    /_/ \_\__|\__\__,_\__|_\_\ |_| \_,_|_||_\__|\__|_\___/_||_/__/
 //
 // ----------------------------------------------------------------------------
+
 
 
 bool Cracker::incrementalAttack(int threadID){
@@ -183,7 +193,8 @@ bool Cracker::incrementalAttack(int threadID){
 
     while (1) {
         iStr[threadID] = (round * batchSize * options.cores) + (threadID * batchSize);
-        // printf("Starting thread %d at position %Lf (%s)\n", threadID, (long double)iStr[threadID], (char *)iStr[threadID]);
+        
+        std::cout << "Starting thread " << threadID << " at position " << (long double)iStr[threadID] << " (" << (char *)iStr[threadID] << ")\n";
         
         for (int i = 0; i < batchSize; i++) {
             if (options.verbose) {
