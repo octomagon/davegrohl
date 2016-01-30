@@ -199,9 +199,16 @@ bool Cracker::incrementalAttack(int threadID){
         
         // This statement is for debugging.  Using std::cout here causes a mangled spooge of
         // outputs from every thread.
-        // std::printf("Starting thread %d at position %.0Lf (%s)\n", threadID, (long double)iStr[threadID], (char *)iStr[threadID]);
+        //
+        std::printf("Starting thread %d at position %.0Lf (%s)\n", threadID, (long double)iStr[threadID], (char *)iStr[threadID]);
         
         for (int i = 0; i < batchSize; i++) {
+            if (strlen(iStr[threadID]) > options.max) {
+                stopTimer();
+                stop();
+                return false;
+            }
+            
             if (options.verbose) {
                 // printf("%d ", threadID);
                 printm((char *)iStr[threadID]);
