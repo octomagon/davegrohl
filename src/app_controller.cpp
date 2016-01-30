@@ -144,10 +144,10 @@ int AppController::help(void){
     std::cout << "  -i,  --incremental        Incremental attack only.\n";
     std::cout << "  -I,  --info               Show system info.\n";
     // std::cout << "  -j,  --john=USERNAME      Dump a user's hash formatted for John the Ripper.\n";
-    // std::cout << "  -m,  --min                Minimum number of digits for the incremental attack.\n";
-    // std::cout << "  -M,  --max                Maximum number of digits for the incremental attack.\n";
+    std::cout << "  -m,  --min                Minimum number of digits for the incremental attack.\n";
+    std::cout << "  -M,  --max                Maximum number of digits for the incremental attack.\n";
     std::cout << "  -s,  --shadow=USERNAME    Dump a user's ShadowHashData.\n";
-    // std::cout << "  -t,  --timeout=SECONDS    Give up after a number of seconds.\n";
+    std::cout << "  -t,  --timeout=SECONDS    Give up after a number of seconds.\n";
     std::cout << "  -T,  --threads=THREADS    Specify number of threads.\n";
     std::cout << "  -u,  --user=USERNAME      Crack a user's password.\n";
     std::cout << "  -v,  --verbose            Show guessed passwords.\n";
@@ -227,6 +227,9 @@ void AppController::printUpdate(){
 }
 
 void AppController::printReport(){
+    if (cracker.tdone.tv_sec == 0 && cracker.tdone.tv_usec == 0) {
+        cracker.stopTimer();
+    }
     
     float secs = (cracker.tdone.tv_sec - cracker.tstart.tv_sec);
     int mins = 0, hours = 0;

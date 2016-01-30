@@ -204,8 +204,6 @@ bool Cracker::incrementalAttack(int threadID){
         
         for (int i = 0; i < batchSize; i++) {
             if (strlen(iStr[threadID]) > options.max) {
-                stopTimer();
-                stop();
                 return false;
             }
             
