@@ -190,9 +190,12 @@ bool Cracker::tryOnePassword(){
 
 bool Cracker::incrementalAttack(int threadID){
     int round = 0;
+    
+    iStr[threadID].zero(options.min);
+    long double startingPoint = (long double)iStr[threadID];
 
     while (1) {
-        iStr[threadID] = (round * batchSize * options.cores) + (threadID * batchSize);
+        iStr[threadID] = (round * batchSize * options.cores) + (threadID * batchSize) + startingPoint;
         
         std::cout << "Starting thread " << threadID << " at position " << (long double)iStr[threadID] << " (" << (char *)iStr[threadID] << ")\n";
         
