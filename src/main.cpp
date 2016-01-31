@@ -78,7 +78,7 @@ int main(int argc, char * argv[]){
                 app->loadRounds(atoi(optarg));
                 break;
             case 's':
-                dumpHashData(optarg);
+                app->dumpUserHash(optarg);
                 exit(0);
                 break;
             case 'S':

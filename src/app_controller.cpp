@@ -264,7 +264,10 @@ void AppController::dumpSystemInfo(){
     std::cout << "Cores:     " << options.cores << std::endl;
 }
 
-
+void AppController::dumpUserHash(std::string user){
+    onlyRoot();
+    dumpHashData(user);
+}
 
 void AppController::setCharSet(std::string charset){
     options.charset = charset;

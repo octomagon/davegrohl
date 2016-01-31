@@ -67,6 +67,7 @@ public:
     int version(void);
     void printReport();
     void dumpSystemInfo();
+    void dumpUserHash(std::string user);
     
     static void watchForKeyboardHits(AppController *anApp);
     static void foundPassword(const char *msg);

@@ -76,8 +76,12 @@ void dumpHashData(std::string user){
     
 #ifdef __APPLE__
     std::vector<HashData> theHashes;
+    std::string filename = "/var/db/dslocal/nodes/Default/users/" + user + ".plist";
     
-    hashDataFromPlist("/var/db/dslocal/nodes/Default/users/octomagon.plist", &theHashes);
+    if (-1 == hashDataFromPlist(filename, &theHashes)){
+        std::cout << "I could not find that user." << std::endl;
+        return;
+    }
     
     for(int i=0; i < theHashes.size(); i++){
         dumpHashData(&theHashes[i]);
