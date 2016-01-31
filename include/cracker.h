@@ -4,7 +4,6 @@
 extern "C" {
     #include <unistd.h>
     #include <dirent.h>
-    #include <sys/time.h>
 }
 
 #include <fstream>
@@ -71,7 +70,6 @@ private:
     long double range;
     long double batchSize = 100;
     
-    void startTimer();
     inline bool isDone();
     
 public:
@@ -81,7 +79,6 @@ public:
     std::vector<std::thread> dThreads;
     std::vector<IncString> iStr;
     std::vector<std::string> guess;
-    struct timeval tstart, tnow, tdone;
     std::atomic<uint64_t> guesses{ 0 };
     std::string winner;
     
@@ -95,9 +92,7 @@ public:
     int start();
     void stop();
     int joinThreads();
-    void stopTimer();
     void stopAfterTimeout();
-    void elapsedTime(char *prettyTime);
     bool tryOnePassword();
     
     bool incrementalAttack(int threadID);

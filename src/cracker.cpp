@@ -23,31 +23,6 @@ Cracker::Cracker(){
 
 
 
-void Cracker::startTimer(){
-    gettimeofday(&tstart, NULL);
-}
-
-void Cracker::elapsedTime(char *prettyTime){
-    gettimeofday(&tnow, NULL);
-    int secs = (tnow.tv_sec - tstart.tv_sec);
-    int mins = 0, hours = 0;
-    
-    if (secs > 3600){
-        hours = secs / 3600;
-        secs = secs - (hours * 3600);
-    }
-    
-    if (secs > 60){
-        mins = secs / 60;
-        secs = secs - (mins * 60);
-    }
-    
-    sprintf(prettyTime, "%04d:%02d:%02d", hours, mins, secs);
-}
-
-
-
-
 int Cracker::loadHashData(HashData someHashData){
     theHash = someHashData;
     return 0;
@@ -121,7 +96,6 @@ int Cracker::start(){
     
     // Times the attack.  Unrelated to timeout.
     timer.start();
-    startTimer();
     
     // Start incremental threads
     if (options.incremental) {
@@ -154,10 +128,6 @@ int Cracker::joinThreads(){
     for(auto &t : dThreads){ t.join(); }
     for(auto &t : iThreads){ t.join(); }
     return 0;
-}
-
-void Cracker::stopTimer(){
-    gettimeofday(&tdone, NULL);
 }
 
 void Cracker::stopAfterTimeout(){
@@ -201,7 +171,7 @@ bool Cracker::incrementalAttack(int threadID){
         // This statement is for debugging.  Using std::cout here causes a mangled spooge of
         // outputs from every thread.
         //
-        std::printf("Starting thread %d at position %.0Lf (%s)\n", threadID, (long double)iStr[threadID], (char *)iStr[threadID]);
+        // std::printf("Starting thread %d at position %.0Lf (%s)\n", threadID, (long double)iStr[threadID], (char *)iStr[threadID]);
         
         for (int i = 0; i < batchSize; i++) {
             if (strlen(iStr[threadID]) > options.max) {
@@ -216,7 +186,7 @@ bool Cracker::incrementalAttack(int threadID){
             guesses++;
             
             if (tryPassword((const char *)iStr[threadID], &theHash)) {
-                stopTimer();
+                timer.stop();
                 stop();
                 winner = "incremental";
                 foundIt((char *)iStr[threadID]);
@@ -247,7 +217,7 @@ bool Cracker::dictionaryAttack(int threadID){
             guesses++;
             
             if (tryPassword(guess[threadID].c_str(), &theHash)) {
-                stopTimer();
+                timer.stop();
                 stop();
                 winner = "dictionary";
                 foundIt(guess[threadID].c_str());

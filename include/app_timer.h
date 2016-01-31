@@ -20,6 +20,8 @@ public:
     void stop();
     long double elapsedSeconds();
     std::string elapsedWithColons();
+    
+    bool isRunning();
 };
 
 

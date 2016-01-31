@@ -113,7 +113,7 @@ void AppController::onlyRoot(){
 
 void AppController::bailout(){
     std::cout << "\n-- Stopping" << std::endl;
-    cracker.stopTimer();
+    cracker.timer.stop();
     cracker.stop();
 }
 
@@ -211,27 +211,19 @@ void AppController::printUpdate(){
 }
 
 void AppController::printReport(){
-    if (cracker.tdone.tv_sec == 0 && cracker.tdone.tv_usec == 0) {
-        cracker.stopTimer();
+    if (cracker.timer.isRunning()) {
+        cracker.timer.stop();
     }
     
-    float secs = (cracker.tdone.tv_sec - cracker.tstart.tv_sec);
-    int mins = 0, hours = 0;
+    long double secs = cracker.timer.elapsedSeconds();
     
-    if (secs > 3600){
-        hours = secs / 3600;
-        secs = secs - (hours * 3600);
-    }
-    
-    if (secs > 60){
-        mins = secs / 60;
-        secs = secs - (mins * 60);
-    }
     if (!cracker.winner.empty()) {
         std::cout << "-- (" << cracker.winner << " attack)" << std::endl;
     }
 
-    std::cout << "\nFinished in " << secs << " seconds / " << cracker.guesses << " total guesses..." << std::endl;
+    std::cout << "\nFinished in ";
+    std::cout << std::fixed;
+    std::cout << std::setprecision(3) << secs << " seconds / " << cracker.guesses << " total guesses..." << std::endl;
     std::cout << std::setprecision(2) << cracker.guesses/secs << " guesses per second." << std::endl;
 }
 

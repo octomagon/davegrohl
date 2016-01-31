@@ -57,3 +57,8 @@ std::string AppTimer::elapsedWithColons(){
     
     return ss.str();
 }
+
+
+bool AppTimer::isRunning(){
+    return running;
+}
