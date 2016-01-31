@@ -192,25 +192,9 @@ void AppController::printUpdate(){
         std::cout << "\n      TIME             GUESSES" << std::endl;
         firstUpdate = false;
     }
-    
-    gettimeofday(&cracker.tnow, NULL);
-    auto secs = (cracker.tnow.tv_sec - cracker.tstart.tv_sec);
-    auto mins = 0, hours = 0;
-    
-    if (secs > 3600){
-        hours = secs / 3600;
-        secs = secs - (hours * 3600);
-    }
-    
-    if (secs > 60){
-        mins = secs / 60;
-        secs = secs - (mins * 60);
-    }
 
     // Elapsed time.
-    std::cout << std::setfill('0') << std::setw(4) << hours << ":";
-    std::cout << std::setfill('0') << std::setw(2) << mins << ":";
-    std::cout << std::setfill('0') << std::setw(2) << secs << "";
+    std::cout << cracker.timer.elapsedWithColons();
     std::cout << std::setfill (' ') << std::setw (20);
     std::cout << cracker.guesses << " ";
     

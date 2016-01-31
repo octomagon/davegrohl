@@ -120,6 +120,7 @@ int Cracker::start(){
     timeoutThread.detach();
     
     // Times the attack.  Unrelated to timeout.
+    timer.start();
     startTimer();
     
     // Start incremental threads
@@ -204,6 +205,7 @@ bool Cracker::incrementalAttack(int threadID){
         
         for (int i = 0; i < batchSize; i++) {
             if (strlen(iStr[threadID]) > options.max) {
+                iStr[threadID] = 0;  // Empty the guess variable to show [] in the status updates.
                 return false;
             }
             

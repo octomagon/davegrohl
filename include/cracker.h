@@ -12,6 +12,7 @@ extern "C" {
 #include <vector>
 #include <atomic>
 
+#include "app_timer.h"
 #include "hash_data.h"
 #include "hash_functions.h"
 #include "inc_string.h"
@@ -75,6 +76,7 @@ private:
     
 public:
     HashData theHash;
+    AppTimer timer;
     std::vector<std::thread> iThreads;
     std::vector<std::thread> dThreads;
     std::vector<IncString> iStr;
