@@ -89,7 +89,7 @@ public:
     Cracker();
     int loadHashData(HashData someHashData);
     int loadOptions(CrackerOptions someOptions);
-    int checkOptions(std::string & errorMessage);
+    int checkOptions(std::string& errorMessage);
     int start();
     void stop();
     int joinThreads();

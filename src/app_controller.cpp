@@ -46,6 +46,14 @@ void AppController::run(){
     
     cracker.loadOptions(options);
     
+    // Check user supplied options for errors
+    std::string errMsg;
+    
+    if (-1 == cracker.checkOptions(errMsg)) {
+        std::cout << errMsg << std::endl;
+        return;
+    }
+    
     switch (runMode) {
         case kOneShot:
             oneShot();

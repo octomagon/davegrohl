@@ -63,7 +63,7 @@ int Cracker::loadOptions(CrackerOptions someOptions){
 }
 
 
-int Cracker::checkOptions(std::string & errorMessage){
+int Cracker::checkOptions(std::string& errorMessage){
     
     
     return 0;
