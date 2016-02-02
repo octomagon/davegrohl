@@ -223,7 +223,7 @@ void AppController::printReport(){
         cracker.timer.stop();
     }
     
-    long double secs = cracker.timer.elapsedSeconds();
+    auto secs = cracker.timer.elapsedSeconds();
     
     if (!cracker.winner.empty()) {
         std::cout << "-- (" << cracker.winner << " attack)" << std::endl;
@@ -231,8 +231,10 @@ void AppController::printReport(){
 
     std::cout << "\nFinished in ";
     std::cout << std::fixed;
-    std::cout << std::setprecision(3) << secs << " seconds / " << cracker.guesses << " total guesses..." << std::endl;
-    std::cout << std::setprecision(2) << cracker.guesses/secs << " guesses per second." << std::endl;
+    std::cout << std::setprecision(3) << secs;
+    std::cout << " seconds / " << cracker.guesses << " total guesses..." << std::endl;
+    std::cout << std::setprecision(2) << cracker.guesses/secs;
+    std::cout << " guesses per second." << std::endl;
 }
 
 

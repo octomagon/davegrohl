@@ -30,7 +30,7 @@ long double AppTimer::elapsedSeconds(){
         usecs = tdone.tv_usec - tstart.tv_usec;
     }
 
-    return secs + (usecs / 1000000);
+    return secs + (usecs * 0.000001);
 }
 
 
@@ -53,7 +53,7 @@ std::string AppTimer::elapsedWithColons(){
     ss << std::setfill('0');
     ss << std::setw(4) << hours << ":";
     ss << std::setw(2) << mins << ":";
-    ss << std::setw(2) << secs << "";
+    ss << std::setw(2) << (long int)secs << "";
     
     return ss.str();
 }
