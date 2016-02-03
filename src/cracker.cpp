@@ -65,6 +65,15 @@ int Cracker::loadOptions(CrackerOptions someOptions){
 
 int Cracker::checkOptions(std::string& errorMessage){
     
+    if (options.max == 0) {
+        errorMessage = "Max cannot be zero.";
+        return -1;
+    }
+    
+    if (options.min > options.max) {
+        errorMessage = "Min cannot be greater than max.";
+        return -1;
+    }
     
     return 0;
 }

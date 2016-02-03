@@ -53,7 +53,7 @@ std::string AppTimer::elapsedWithColons(){
     ss << std::setfill('0');
     ss << std::setw(4) << hours << ":";
     ss << std::setw(2) << mins << ":";
-    ss << std::setw(2) << (long int)secs << "";
+    ss << std::setw(2) << static_cast<long int>(secs) << "";
     
     return ss.str();
 }
