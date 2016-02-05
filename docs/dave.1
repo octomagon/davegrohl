@@ -1,0 +1,33 @@
+.\" ---------------------------------------------------------------------------
+.\"   This is the man page for DaveGrohl (www.davegrohl.org)
+.\" ---------------------------------------------------------------------------
+
+.TH DAVE 1
+.SH NAME
+dave \- A password cracker for OS X
+
+
+.SH SYNOPSIS
+.B dave
+[\fB\-u\fR \fIUSERNAME\fR]
+
+
+.SH DESCRIPTION
+.B DaveGrohl
+is a brute-force password cracker for Mac OS X.
+
+
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-characters =\fICHARS\fR
+This is where you can define your own custom character set to use.
+.TP
+.BR \-d ", " \-\-dictionary
+Runs only a dictionary attack.  Dave will look for plain-text wordlists in folder called wordlists.
+.TP
+.BR \-h ", " \-\-help
+I hope I don't actually need to tell you what this does.  I mean... I've met some \fIspecial\fR people, but you should really reconsider using or owning any object that requires electricity if you can't figure this one out.
+.TP
+.BR \-i ", " \-\-incremental
+Runs only an incremental attack.  By default, Dave will attempt every possible password that is 0 to 12 characters long and contains letters in the lower-case English alphabet and/or the ten Arabic numerals.
+
