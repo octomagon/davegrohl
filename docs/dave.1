@@ -16,6 +16,10 @@ dave \- A password cracker for OS X
 .B DaveGrohl
 is a brute-force password cracker for Mac OS X.
 
+.SH WARNING
+.B DaveGrohl
+is not shy about using all the processing power he has available.  Out of the box, Dave will peg all the machine's CPUs to 100% and your fans will start-a-blastin'.  \fIPlease\fR be carefull when using running Dave for long periods of time.  It's analagous to jacking up your car and leaving a cinder block on the gas pedal; I expect your computer would last as long as the car.
+
 
 .SH OPTIONS
 .TP
@@ -30,4 +34,30 @@ I hope I don't actually need to tell you what this does.  I mean... I've met som
 .TP
 .BR \-i ", " \-\-incremental
 Runs only an incremental attack.  By default, Dave will attempt every possible password that is 0 to 12 characters long and contains letters in the lower-case English alphabet and/or the ten Arabic numerals.
-
+.TP
+.BR \-I ", " \-\-info
+Show a little basic info about the machine Dave is running on.  This is not needed and will probably be taken out in the future.
+.TP
+.BR \-m ", " \-\-min =\fIDIGITS\fR
+Minimum length of the passwords attempted for the incremental attack.  The default is 0, which is equivelant to a blank password. 
+.TP
+.BR \-M ", " \-\-max =\fIDIGITS\fR
+Maximum length of the passwords attempted for the incremental attack.  The default is 12.
+.TP
+.BR \-s ", " \-\-shadow =\fIUSERNAME\fR
+Dump a user's password hash to the screen without trying to crack it.
+.TP
+.BR \-t ", " \-\-timeout =\fISECONDS\fR
+Give up after a number of seconds.  Dave will return a non-zero if he has not found the password by this time. By default, Dave does not give up.  
+.TP
+.BR \-T ", " \-\-threads =\fITHREADS\fR
+Specifies the number of threads Dave should use for the incremental attack.  By default, this is the number of processor cores the computer has.  Since nearly all computers are multi-core nowadays, this is probably most usefull for throttling Dave's performance.  Otherwise, Dave just pegs all the CPUs to 100%.
+.TP
+.BR \-u ", " \-\-user =\fIUSERNAME\fR
+Specify the username on which to perform the attack.  This usually requires root privileges.
+.TP
+.BR \-v ", " \-\-verbose
+Shows all guessed passwords.  This \fIseverely\fR slows Dave down.
+.TP
+.BR \-V ", " \-\-version
+Spit out some version info.
