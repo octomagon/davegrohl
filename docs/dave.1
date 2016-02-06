@@ -14,11 +14,13 @@ dave \- A password cracker for OS X
 
 .SH DESCRIPTION
 .B DaveGrohl
-is a brute-force password cracker for Mac OS X.
+is a brute-force password cracker for Mac OS X.  It's closer to binary masturbation rather than an actual practical tool.  Mac OS X throttles the time it takes to generate your password hash in order to make brute-force attacks more difficult.  If you want to learn more of the specifics, look up \fIPBKDF2\fR on the wikipedias or you can check out the actual \fICommonCrypto\fR code from opensource.apple.com.
+
+Out of the box, OS X uses a pretty secure hashing algorithm.  On my Macbook Pro (Early 2013) Dave averages 30-40 guesses per second, which makes me a sad panda.  However if you turn on Windows SMB file sharing, OS X is forced to store your password in a much less secure manner and Dave averages ~200,000 guesses per second.
 
 .SH WARNING
 .B DaveGrohl
-is not shy about using all the processing power he has available.  Out of the box, Dave will peg all the machine's CPUs to 100% and your fans will start-a-blastin'.  \fIPlease\fR be carefull when using running Dave for long periods of time.  It's analagous to jacking up your car and leaving a cinder block on the gas pedal; I expect your computer would last as long as the car.
+is not shy about using all the processing power he has available.  Out of the box, Dave will peg all the machine's CPUs to 100% and your fans will start-a-blastin'.  \fIPlease\fR be carefull when using running Dave for long periods of time.  It's analagous to jacking up your car and leaving a cinder block on the gas pedal.  I expect your computer would last as long as the car.
 
 
 .SH OPTIONS
