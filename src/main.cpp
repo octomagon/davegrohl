@@ -71,6 +71,9 @@ int main(int argc, char * argv[]){
             case 'M':
                 app->setMaxDigits(atoi(optarg));
                 break;
+            case 'n':
+                app->install(argc, argv);
+                break;
             case 'p':
                 app->tryOnePassword(optarg);
                 break;

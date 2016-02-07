@@ -5,7 +5,9 @@
 #include <iostream>
 
 class Installer{
-    
+private:
+public:
+    int install(int argc, char * argv[]);
 };
 
 

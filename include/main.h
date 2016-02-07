@@ -21,6 +21,8 @@ static struct option longopts[] = {
     { "incremental",    no_argument,        NULL,   'i' },
     { "min",            required_argument,  NULL,   'm' },
     { "max",            required_argument,  NULL,   'M' },
+    { "install",        no_argument,        NULL,   'n' },
+    { "uninstall",      no_argument,        NULL,   'N' },
     { "password",       required_argument,  NULL,   'p' },
     { "rounds",         required_argument,  NULL,   'R' },
     { "shadow",         required_argument,  NULL,   's' },

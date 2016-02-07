@@ -15,6 +15,7 @@ extern "C" {  // This may be paranoia...
 
 #include "cracker.h"
 #include "etc_shadow.h"
+#include "installer.h"
 #include "shadow_hash.h"
 
 #define VERS "3.0 alpha"
@@ -28,7 +29,7 @@ typedef enum {
 } run_mode_t;
 
 
-class AppController{
+class AppController: public Installer{
     Cracker cracker;
     bool root = false;
     std::atomic<bool> firstUpdate{ true };
