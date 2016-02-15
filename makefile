@@ -59,4 +59,16 @@ print:
 	@echo "SOURCES: $(SOURCES)"
 	@echo "OBJECTS: $(OBJECTS)"
 
-.PHONY: clean test $(MBEDTLS)
+install:
+	/bin/mkdir -p /usr/local/bin
+	/bin/mkdir -p /usr/local/share/man/man1
+	/bin/mv dave /usr/local/bin/dave
+	/bin/cp docs/dave.1 /usr/local/share/man/man1/dave.1
+	@echo "Installed!"
+
+uninstall:
+	/bin/rm -f /usr/local/share/man/man1/dave.1
+	/bin/rm -f /usr/local/bin/dave
+	@echo "Uninstalled!"
+
+.PHONY: clean test $(MBEDTLS) install uninstall
