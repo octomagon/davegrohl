@@ -17,7 +17,7 @@ void signalWatcher(AppController *anApp){
 
 int main(int argc, char * argv[]){
     std::string optstring;
-    AppController *app = new AppController;
+    AppController *app = new AppController(argc, argv);
     
     // atexit(AppController::bailout);
     
@@ -70,9 +70,6 @@ int main(int argc, char * argv[]){
                 break;
             case 'M':
                 app->setMaxDigits(atoi(optarg));
-                break;
-            case 'n':
-                app->install(argc, argv);
                 break;
             case 'p':
                 app->tryOnePassword(optarg);

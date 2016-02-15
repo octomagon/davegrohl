@@ -15,7 +15,6 @@ extern "C" {  // This may be paranoia...
 
 #include "cracker.h"
 #include "etc_shadow.h"
-#include "installer.h"
 #include "shadow_hash.h"
 
 #define VERS "3.0 alpha"
@@ -29,7 +28,7 @@ typedef enum {
 } run_mode_t;
 
 
-class AppController: public Installer{
+class AppController{
     Cracker cracker;
     bool root = false;
     std::atomic<bool> firstUpdate{ true };
@@ -42,7 +41,7 @@ public:
     CrackerOptions options;
     run_mode_t runMode = kNone;
     
-    AppController();
+    AppController(int argc, char * argv[]);
     void run();
     void standalone();
     void oneShot();

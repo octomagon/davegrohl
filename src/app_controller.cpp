@@ -1,6 +1,6 @@
 #include "app_controller.h"
 
-AppController::AppController(){
+AppController::AppController(int argc, char * argv[]){
     // Get # of available CPU cores.
     options.cores = sysconf(_SC_NPROCESSORS_ONLN);
     
@@ -41,7 +41,9 @@ void AppController::run(){
     if (cracker.theHash.isEmpty() == false) {
         cracker.theHash.detectType();
     } else {
-        hashDataForUser(options.username, &cracker.theHash);
+        if (options.username.empty() == false) {
+            hashDataForUser(options.username, &cracker.theHash);
+        }
     }
     
     cracker.loadOptions(options);
@@ -62,7 +64,7 @@ void AppController::run(){
             standalone();
             break;
         default:
-            standalone();
+            help();
             break;
     }
 }
@@ -136,6 +138,7 @@ void AppController::bailout(){
 
 int AppController::help(void){
     version();
+    std::cout << std::endl;
     
     // Comments are yet to be implemented features.
     
