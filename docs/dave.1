@@ -18,6 +18,14 @@ is a brute-force password cracker for Mac OS X.  It's closer to binary masturbat
 
 Out of the box, OS X uses a pretty secure hashing algorithm.  On my Macbook Pro (Early 2013) Dave averages 30-40 guesses per second, which makes me a sad panda.  However if you turn on Windows SMB file sharing, OS X is forced to store your password in a much less secure manner and Dave averages ~200,000 guesses per second.
 
+.SH USAGE
+.TP
+.B sudo ./dave -u samjackson
+.P
+This is the most basic usage of Dave.  This will attempt to crack the password for the user 'samjackson'.  By default, Dave will start two attacks.  The \fIincremental\fR attack will check every password between 0 and 16 digits long using the default character set of 'aeorisn1tl2md0cp3hbuk45g9687yfwjvzxq'.  By default, Dave does not check every possible password because that is insanely impractical.
+.P
+Dave will also check in the 'wordlists' directory for plain-text files to use in a \fIdictionary\fR attack.  A seperate thread will be created for each file found.  Once Dave is started, you can get a progress update by pressing SPACEBAR.
+
 .SH WARNING
 .B DaveGrohl
 is not shy about using all the processing power he has available.  Out of the box, Dave will peg all the machine's CPUs to 100% and your fans will start-a-blastin'.  \fIPlease\fR be carefull when using running Dave for long periods of time.  It's analagous to jacking up your car and leaving a cinder block on the gas pedal.  I expect your computer would last as long as the car.
@@ -63,3 +71,4 @@ Shows all guessed passwords.  This \fIseverely\fR slows Dave down.
 .TP
 .BR \-V ", " \-\-version
 Spit out some version info.
+
