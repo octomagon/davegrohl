@@ -2,3 +2,4 @@
 .vagrant
 build
 dave
+*-cloudimg-console.log

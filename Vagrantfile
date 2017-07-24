@@ -1,14 +1,15 @@
 $script = <<SCRIPT
 echo I am provisioning...
-clang_vers="3.6"
+clang_vers="3.9"
 
-apt-get install -y clang-${clang_vers} lldb-${clang_vers} libc++-dev libssl-dev whois
+apt-get update -y
+apt-get install -y clang-${clang_vers} lldb-${clang_vers} make build-essential libc++-dev libssl-dev whois
 ln -s /usr/lib/llvm-${clang_vers}/bin/clang++ /usr/local/bin/clang++
 ln -s /usr/bin/lldb-${clang_vers} /usr/local/bin/lldb
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
   config.vm.define "dave-linux"
   config.vm.provision "shell", inline: $script
   config.vm.provider "virtualbox" do |v|

@@ -13,16 +13,17 @@ MBEDDIR := mbedtls
 MBEDTLS := $(MBEDDIR)/library/libmbedcrypto.a
 
 CFLAGS :=
-CPPFLAGS := -std=c++14 -stdlib=libc++
-LIB := -lc++ -lpthread -L$(MBEDDIR)/library -lmbedcrypto
+CPPFLAGS := -std=c++14
+LIB := -lpthread -L$(MBEDDIR)/library -lmbedcrypto
 INC := -I include -I $(MBEDDIR)/include
 
 # Set OS Specific flags
 ifeq ($(UNAME_S),Darwin) # OS X
-	CPPFLAGS += -ObjC++
-	LIB += -framework Foundation
+	CPPFLAGS += -stdlib=libc++ -ObjC++
+	LIB += -lc++ -framework Foundation
 else # Linux
-	LIB += -lssl -lcrypto -lcrypt
+	CPPFLAGS += -stdlib=libstdc++
+	LIB += -lstdc++ -lssl -lcrypto -lcrypt
 endif
 
 # Linking
