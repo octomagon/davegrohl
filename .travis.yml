@@ -1,0 +1,5 @@
+language:
+  - C++
+osx_image: xcode10.1
+script:
+  - make && make test
