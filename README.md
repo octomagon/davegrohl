@@ -1,6 +1,8 @@
 # DaveGrohl 3.0 alpha
 A ~~Distributed~~ Password Cracker for OS X
 
+[![Build Status](https://travis-ci.com/octomagon/davegrohl.svg?branch=master)](https://travis-ci.com/octomagon/davegrohl)
+
 ## What's new?
 Version 3.0 is a complete rewrite of DaveGrohl.  Version 2 was suffering from a severe case of code-stank and it will eventually be euthanized.  The goal is to create a completely modern object-oriented codebase and make it extremely easy to use for both the developer and the end user.  This code is currently in the **very** early stages, but will focus on a few central design goals.
 
