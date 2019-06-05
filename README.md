@@ -78,7 +78,8 @@ The time estimate is how long Dave will take to check every possibility, not how
 
 
 ## Using Dave with Hashcat
-If you'd like to use a **real** password cracker, try [hashcat](https://hashcat.net/hashcat/).  You can use Dave to extract a user's hash formatted for haashcat. Like this:
+If you'd like to use a **real** password cracker, try [hashcat](https://hashcat.net/hashcat/).
+You can use Dave to extract a user's hash formatted for hashcat. Like this:
 ```bash
 MacBook-Pro:~/davegrohl$ sudo ./dave --hashcat=USERNAME > hash.txt
 MacBook-Pro:~/davegrohl$ hashcat -m 7100 hash.txt wordlist.txt
