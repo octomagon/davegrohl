@@ -17,7 +17,7 @@ extern "C" {  // This may be paranoia...
 #include "etc_shadow.h"
 #include "shadow_hash.h"
 
-#define VERS "3.0 alpha"
+#define VERS "3.01 alpha"
 
 static struct termios new_flags, old_flags;
 
@@ -33,21 +33,21 @@ class AppController{
     bool root = false;
     std::atomic<bool> firstUpdate{ true };
     std::string kernel, hostname, kernelVersion, arch;
-    
+
     void onlyRoot();
     void startBanner();
     void printUpdate();
 public:
     CrackerOptions options;
     run_mode_t runMode = kNone;
-    
+
     AppController(int argc, char * argv[]);
     void run();
     void standalone();
     void oneShot();
     void daemonize();
     void bailout();
-    
+
     void setCharSet(std::string charset);
     void setMinDigits(int min);
     void setMaxDigits(int max);
@@ -57,18 +57,19 @@ public:
     void setVerbose();
     void setThreads(int threads);
     void setTimeout(int timeout);
-    
+
     void tryOnePassword(std::string password);
     int loadHash(std::string hash);
     int loadSalt(std::string salt);
     int loadRounds(int rounds);
-    
+
     int help(void);
     int version(void);
     void printReport();
     void dumpSystemInfo();
     void dumpUserHash(std::string user);
-    
+    void dumpForHashcat(std::string user);
+
     static void watchForKeyboardHits(AppController *anApp);
     static void foundPassword(const char *msg);
 };
@@ -78,4 +79,3 @@ void terminalReset();
 
 
 #endif // APP_CONTROLLER_H_
-

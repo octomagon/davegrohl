@@ -18,7 +18,7 @@ struct shadow_user {
 
 class ShadowData {
     std::vector<shadow_user> users;
-    
+
 public:
     int loadUsers();
 };
@@ -26,6 +26,7 @@ public:
 
 int hashDataForUser(std::string user, HashData *someHashData);
 void dumpHashData(std::string user);
+void dumpHashcat(std::string user);
 
 
 

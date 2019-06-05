@@ -18,16 +18,16 @@ void signalWatcher(AppController *anApp){
 int main(int argc, char * argv[]){
     std::string optstring;
     AppController *app = new AppController(argc, argv);
-    
+
     // atexit(AppController::bailout);
-    
+
     // Generate optstring
     if (optstring.empty()) {
         for (int x = 0; x < (sizeof(longopts)/sizeof(struct option)); x++){
             if (longopts[x].flag == NULL) {
                 optstring.push_back((char)longopts[x].val);
             }
-            
+
             if (longopts[x].has_arg == 1) {
                 optstring.append(":");
             } else if (longopts[x].has_arg == 2){
@@ -100,26 +100,28 @@ int main(int argc, char * argv[]){
                 app->version();
                 exit(0);
                 break;
+            case 'x':
+                app->dumpForHashcat(optarg);
+                exit(0);
+                break;
             case '?':
                 exit(0);
             case ':':
                 exit(0);
         }
     }
-    
+
     // Register signal handler
     signal(SIGINT, handleSigint);
-    
+
     std::thread sigWatch(signalWatcher, app);
     sigWatch.detach();
-    
+
     // Let's get funky.
     app->run();
-    
+
     // Cleanup
     delete app;
-   
+
     return 0;
 }
-
-

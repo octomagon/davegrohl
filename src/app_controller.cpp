@@ -3,24 +3,24 @@
 AppController::AppController(int argc, char * argv[]){
     // Get # of available CPU cores.
     options.cores = sysconf(_SC_NPROCESSORS_ONLN);
-    
+
     // Get uname() data.
     struct utsname unameData;
     uname(&unameData);
-    
+
     kernel = unameData.sysname;
     hostname = unameData.nodename;
     kernelVersion = unameData.release;
     arch = unameData.machine;
-    
+
     // See if we're running as root.
     if (geteuid() == 0) {
         root = true;
     }
-    
+
     // Read the current termios settings.
     tcgetattr(STDIN_FILENO, &old_flags);
-    
+
     // Override found password function
     cracker.foundIt = foundPassword;
 }
@@ -37,7 +37,7 @@ AppController::AppController(int argc, char * argv[]){
 // ----------------------------------------------------------------------------
 
 void AppController::run(){
-    
+
     if (cracker.theHash.isEmpty() == false) {
         cracker.theHash.detectType();
     } else {
@@ -45,17 +45,17 @@ void AppController::run(){
             hashDataForUser(options.username, &cracker.theHash);
         }
     }
-    
+
     cracker.loadOptions(options);
-    
+
     // Check user supplied options for errors
     std::string errMsg;
-    
+
     if (-1 == cracker.checkOptions(errMsg)) {
         std::cout << errMsg << std::endl;
         return;
     }
-    
+
     switch (runMode) {
         case kOneShot:
             oneShot();
@@ -77,14 +77,14 @@ void AppController::run(){
 // ----------------------------------------------------------------------------
 
 void AppController::standalone(){
-    
+
     terminalNoEcho();
     std::thread userInput(watchForKeyboardHits, this);
     userInput.detach();
-    
+
     startBanner();
     cracker.start();
-    
+
     cracker.joinThreads();
     terminalReset();
     printReport();
@@ -139,9 +139,9 @@ void AppController::bailout(){
 int AppController::help(void){
     version();
     std::cout << std::endl;
-    
+
     // Comments are yet to be implemented features.
-    
+
     std::cout << "  -c,  --characters=CHARS   Define your own custom character set to use.\n";
     // std::cout << "  -C,  --char-set=SET       Use one of these predefined character sets.\n";
     // std::cout << "                  09        The ten arabic numerals\n";
@@ -163,8 +163,9 @@ int AppController::help(void){
     std::cout << "  -u,  --user=USERNAME      Crack a user's password.\n";
     std::cout << "  -v,  --verbose            Show guessed passwords.\n";
     std::cout << "  -V,  --version            Show version info.\n";
+    std::cout << "  -x,  --hashcat=USERNAME   Dump a user's ShadowHashData formatted for Hashcat.\n";
     std::cout << std::endl;
-    
+
     return 0;
 }
 
@@ -175,7 +176,7 @@ int AppController::version(void){
     std::cout << "    DaveGrohl " << VERS << "\n\n";
     std::cout << "A password cracker for OS X\n";
     std::cout << "http://www.davegrohl.org\n\n";
-    
+
     // This may be a bit sloppy
     std::cout << "    Built with:" << std::endl;
 #ifdef USE_COMMON_CRYPTO
@@ -187,7 +188,7 @@ int AppController::version(void){
 #ifdef USE_MBEDTLS
     std::cout << MBEDTLS_VERSION_STRING_FULL << std::endl;
 #endif
-    
+
     return 0;
 }
 
@@ -198,7 +199,7 @@ void AppController::startBanner(){
 
 
 void AppController::printUpdate(){
-    
+
     if (firstUpdate) {
         std::cout << "\n      TIME             GUESSES" << std::endl;
         firstUpdate = false;
@@ -208,16 +209,16 @@ void AppController::printUpdate(){
     std::cout << cracker.timer.elapsedWithColons();
     std::cout << std::setfill (' ') << std::setw (20);
     std::cout << cracker.guesses << " ";
-    
+
     // Print current guesses for each thread.
     for(int i = 0; i < cracker.dThreads.size(); i++){
         std::cout << "(" << cracker.guess[i] << ") ";
     }
-    
+
     for(int i = 0; i < cracker.iThreads.size(); i++){
         std::cout << "[" << cracker.iStr[i].value << "] ";
     }
-    
+
     std::cout << std::endl;
 }
 
@@ -225,9 +226,9 @@ void AppController::printReport(){
     if (cracker.timer.isRunning()) {
         cracker.timer.stop();
     }
-    
+
     auto secs = cracker.timer.elapsedSeconds();
-    
+
     if (!cracker.winner.empty()) {
         std::cout << "-- (" << cracker.winner << " attack)" << std::endl;
     }
@@ -245,20 +246,20 @@ void AppController::printReport(){
 
 void AppController::watchForKeyboardHits(AppController *anApp){
     int ch;
-    
+
     while (1) {
         ch = (getc(stdin) - 48);
-        
+
         // -21 is for an escape sequence where the tty sends 3
         // characters in quick succession.  As of right now,
         // we don't care about escape sequences, so all of this
         // data is thrown away.
-        
+
         if (ch == -21){
             getc(stdin);
             getc(stdin);
         }
-        
+
         anApp->printUpdate();
     }
 }
@@ -280,6 +281,11 @@ void AppController::dumpSystemInfo(){
 void AppController::dumpUserHash(std::string user){
     onlyRoot();
     dumpHashData(user);
+}
+
+void AppController::dumpForHashcat(std::string user){
+    onlyRoot();
+    dumpHashcat(user);
 }
 
 void AppController::setCharSet(std::string charset){
@@ -304,7 +310,7 @@ void AppController::setDictionary(){
 
 void AppController::setUsername(std::string username){
     options.username = username;
-    
+
     if (runMode == kNone) {
         runMode = kStandalone;
     }
@@ -363,7 +369,7 @@ void terminalNoEcho(){
     new_flags.c_cflag |= (CS8);
     new_flags.c_cc[VMIN] = 1;
     new_flags.c_cc[VTIME] = 0;
-    
+
     tcsetattr(STDIN_FILENO, TCSANOW, &new_flags);
 }
 
@@ -371,5 +377,3 @@ void terminalNoEcho(){
 void terminalReset(){
     tcsetattr(STDIN_FILENO, TCSANOW, &old_flags);
 }
-
-

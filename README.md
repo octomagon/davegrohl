@@ -77,6 +77,13 @@ Finished in 74.250 seconds / 2,477 guesses...
 The time estimate is how long Dave will take to check every possibility, not how long to find the password.
 
 
+## Using Dave with Hashcat
+If you'd like to use a **real** password cracker, try [hashcat](https://hashcat.net/hashcat/).  You can use Dave to extract a user's hash formatted for haashcat. Like this:
+```bash
+MacBook-Pro:~/davegrohl$ sudo ./dave --hashcat=USERNAME > hash.txt
+MacBook-Pro:~/davegrohl$ hashcat -m 7100 hash.txt wordlist.txt
+```
+
 ## History
 DaveGrohl was initially created in early 2011 as a password hash extractor & companion tool to John the Ripper.  It's blossoming into a multithreaded distributed password cracker was a product of sheer curiosity/boredom.  Dave has always been aimed at brute-forcing OS X user passwords, although he's been known to get lost staring into a cloud of Linux machines.
 

@@ -53,7 +53,7 @@ bool passwordMatchesPBKDF2Hash(const char password[], HashData *theHash);
 // SMB NT - MD4 Functions
 u_int16_t ByteSwapInt16(u_int16_t value);
 void CStringToUnicode(char *cstr, u_int16_t *unicode);
-void MD4Encode(unsigned char *output, const unsigned char *input, unsigned int len);
+//void MD4Encode(unsigned char *output, const unsigned char *input, unsigned int len);
 void CalculateSMBNTHash(const char *utf8Password, unsigned char outHash[16]);
 
 #endif // HASH_FUNCTIONS_H_

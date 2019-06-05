@@ -30,6 +30,7 @@ static struct option longopts[] = {
     { "user",           required_argument,  NULL,   'u' },
     { "verbose",        no_argument,        NULL,   'v' },
     { "version",        no_argument,        NULL,   'V' },
+    { "hashcat",        required_argument,  NULL,   'x' },
     {  NULL,            0,                  NULL,    0  }
 };
 
