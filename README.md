@@ -1,4 +1,4 @@
-# DaveGrohl 3.0 alpha
+# DaveGrohl 3.01 alpha
 A ~~Distributed~~ Password Cracker for OS X
 
 [![Build Status](https://travis-ci.com/octomagon/davegrohl.svg?branch=master)](https://travis-ci.com/octomagon/davegrohl)
