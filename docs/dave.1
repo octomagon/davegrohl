@@ -16,7 +16,7 @@ dave \- A password cracker for OS X
 .B DaveGrohl
 is a brute-force password cracker for Mac OS X.  It's closer to binary masturbation rather than an actual practical tool.  Mac OS X throttles the time it takes to generate your password hash in order to make brute-force attacks more difficult.  If you want to learn more of the specifics, look up \fIPBKDF2\fR on the wikipedias or you can check out the actual \fICommonCrypto\fR code from opensource.apple.com.
 
-Out of the box, OS X uses a pretty secure hashing algorithm.  On my Macbook Pro (Early 2013) Dave averages 30-40 guesses per second, which makes me a sad panda.  However if you turn on Windows SMB file sharing, OS X is forced to store your password in a much less secure manner and Dave averages ~200,000 guesses per second.
+Out of the box, OS X uses a pretty secure hashing algorithm.  On my Macbook Pro (2018) Dave averages ~40 guesses per second, which makes me a sad panda.  However if you turn on Windows SMB file sharing, OS X is forced to store your password in a much less secure manner and Dave averages ~200,000 guesses per second.
 
 .SH USAGE
 .TP
@@ -49,7 +49,7 @@ Runs only an incremental attack.  By default, Dave will attempt every possible p
 Show a little basic info about the machine Dave is running on.  This is not needed and will probably be taken out in the future.
 .TP
 .BR \-m ", " \-\-min =\fIDIGITS\fR
-Minimum length of the passwords attempted for the incremental attack.  The default is 0, which is equivelant to a blank password. 
+Minimum length of the passwords attempted for the incremental attack.  The default is 0, which is equivelant to a blank password.
 .TP
 .BR \-M ", " \-\-max =\fIDIGITS\fR
 Maximum length of the passwords attempted for the incremental attack.  The default is 12.
@@ -58,7 +58,7 @@ Maximum length of the passwords attempted for the incremental attack.  The defau
 Dump a user's password hash to the screen without trying to crack it.
 .TP
 .BR \-t ", " \-\-timeout =\fISECONDS\fR
-Give up after a number of seconds.  Dave will return a non-zero if he has not found the password by this time. By default, Dave does not give up.  
+Give up after a number of seconds.  Dave will return a non-zero if he has not found the password by this time. By default, Dave does not give up.
 .TP
 .BR \-T ", " \-\-threads =\fITHREADS\fR
 Specifies the number of threads Dave should use for the incremental attack.  By default, this is the number of processor cores the computer has.  Since nearly all computers are multi-core nowadays, this is probably most usefull for throttling Dave's performance.  Otherwise, Dave just pegs all the CPUs to 100%.
@@ -71,4 +71,12 @@ Shows all guessed passwords.  This \fIseverely\fR slows Dave down.
 .TP
 .BR \-V ", " \-\-version
 Spit out some version info.
+.TP
+.BR \-x ", " \-\-hashcat =\fIUSERNAME\fR
+Dump a user's password hash formatted for Hashcat.  This is currently only compatible with hash mode 7100 macOS v10.8+ (PBKDF2-SHA512).
 
+.RS 11
+.B sudo ./dave --hashcat=USERNAME > hash.txt
+.br
+.B hashcat -m 7100 hash.txt wordlist.txt
+.RE
